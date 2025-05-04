@@ -2,13 +2,15 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
+
 function ProfileList() {
   const [profiles, setProfiles] = useState([]);
   const [form, setForm] = useState({ name: "", status: "" });
 
   const fetchProfiles = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/profiles");
+      const res = await axios.get(`${API_BASE_URL}/api/profiles`);
       setProfiles(res.data);
     } catch (err) {
       console.error(err);
@@ -22,7 +24,7 @@ function ProfileList() {
   const handleAdd = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:5000/api/profiles", form);
+      await axios.post(`${API_BASE_URL}/api/profiles`, form);
       setForm({ name: "", status: "" });
       fetchProfiles();
     } catch (err) {
@@ -32,7 +34,7 @@ function ProfileList() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/profiles/${id}`);
+      await axios.delete(`${API_BASE_URL}/api/profiles/${id}`);
       fetchProfiles();
     } catch (err) {
       console.error(err);

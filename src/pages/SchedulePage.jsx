@@ -16,6 +16,8 @@ const dayOptions = [
   "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"
 ];
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || "http://localhost:5000";
+
 function SchedulePage() {
   const { profileId } = useParams();
   const [scheduleList, setScheduleList] = useState([]);
@@ -30,7 +32,7 @@ function SchedulePage() {
 
   const fetchData = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/schedules/${profileId}`);
+      const res = await axios.get(`${API_BASE_URL}/api/schedules/${profileId}`);
       const sorted = res.data.sort((a, b) =>
         (dayOrder[a.day.toLowerCase()] || 99) - (dayOrder[b.day.toLowerCase()] || 99)
       );
@@ -42,7 +44,7 @@ function SchedulePage() {
 
   const fetchProfileName = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/profiles`);
+      const res = await axios.get(`${API_BASE_URL}/api/profiles`);
       const profile = res.data.find((p) => p.id === parseInt(profileId));
       if (profile) setProfileName(profile.name);
     } catch (err) {
@@ -65,10 +67,10 @@ function SchedulePage() {
     };
     try {
       if (editingId) {
-        await axios.put(`http://localhost:5000/api/schedules/${editingId}`, data);
+        await axios.put(`${API_BASE_URL}/api/schedules/${editingId}`, data);
         setEditingId(null);
       } else {
-        await axios.post("http://localhost:5000/api/schedules", data);
+        await axios.post(`${API_BASE_URL}/api/schedules`, data);
       }
       setForm({ day: "", subject: "", start_time: "", end_time: "" });
       fetchData();
@@ -89,7 +91,7 @@ function SchedulePage() {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/schedules/${id}`);
+      await axios.delete(`${API_BASE_URL}/api/schedules/${id}`);
       fetchData();
     } catch (err) {
       console.error(err);
