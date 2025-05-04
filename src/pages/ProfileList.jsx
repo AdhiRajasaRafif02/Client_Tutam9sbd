@@ -24,11 +24,13 @@ function ProfileList() {
   const handleAdd = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(`${API_BASE_URL}/api/profiles`, form);
+      console.log("Sending POST request with data:", form); // Log data yang dikirim
+      const response = await axios.post(`${API_BASE_URL}/api/profiles`, form);
+      console.log("Response from server:", response.data); // Log respons dari server
       setForm({ name: "", status: "" });
       fetchProfiles();
     } catch (err) {
-      console.error(err);
+      console.error("Error while adding profile:", err.response?.data || err.message); // Log error
     }
   };
 
