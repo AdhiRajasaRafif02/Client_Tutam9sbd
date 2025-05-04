@@ -6,7 +6,7 @@ export default defineConfig({
   plugins: [react()],
   define: {
     'process.env.REACT_APP_API_BASE_URL': JSON.stringify(
-      process.env.REACT_APP_API_BASE_URL || 'http://localhost:5000' // Fallback to localhost
+      process.env.REACT_APP_API_BASE_URL || 'https://server-tutam9sbd.vercel.app' // Use deployed backend URL
     ),
   },
 });
